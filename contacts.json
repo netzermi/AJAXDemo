@@ -1,0 +1,10 @@
+[
+    {"name": "Alice Johnson", "phone": "+1 555 0101", "email": "alice.johnson@example.com"},
+    {"name": "Ben Carter", "phone": "+1 555 0102", "email": "ben.carter@example.com"},
+    {"name": "Carla Mendez", "phone": "+1 555 0103", "email": "carla.mendez@example.com"},
+    {"name": "Dario Kim", "phone": "+1 555 0104", "email": "dario.kim@example.com"},
+    {"name": "Elena Novak", "phone": "+1 555 0105", "email": "elena.novak@example.com"},
+    {"name": "Farah Singh", "phone": "+1 555 0106", "email": "farah.singh@example.com"},
+    {"name": "Gianni Rossi", "phone": "+1 555 0107", "email": "gianni.rossi@example.com"},
+    {"name": "Hana Suzuki", "phone": "+1 555 0108", "email": "hana.suzuki@example.com"}
+]
