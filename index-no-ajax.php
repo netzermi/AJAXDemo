@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . "/functions.php";
 
-sleep(1);
+applyAjaxDelay();
 
 $contacts = getContacts();
 $query = isset($_GET["q"]) ? trim($_GET["q"]) : "";

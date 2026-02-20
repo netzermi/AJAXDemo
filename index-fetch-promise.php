@@ -32,7 +32,7 @@ if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacts (AJAX)</title>
+    <title>Contacts (Fetch)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -78,14 +78,19 @@ if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
 
             function fetchResults() {
                 var query = encodeURIComponent(input.value.trim());
-                var request = new XMLHttpRequest();
-                request.open("GET", "index-ajax.php?ajax=1&q=" + query, true);
-                request.onreadystatechange = function () {
-                    if (request.readyState === 4 && request.status === 200) {
-                        results.innerHTML = request.responseText;
-                    }
-                };
-                request.send();
+                fetch("index-fetch-promise.php?ajax=1&q=" + query, { method: "GET" })
+                    .then(function (response) {
+                        if (!response.ok) {
+                            throw new Error("Request failed");
+                        }
+                        return response.text();
+                    })
+                    .then(function (html) {
+                        results.innerHTML = html;
+                    })
+                    .catch(function () {
+                        results.innerHTML = '<p class="empty">Unable to load contacts.</p>';
+                    });
             }
 
             form.addEventListener("submit", function (event) {

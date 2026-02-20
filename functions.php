@@ -14,3 +14,7 @@ function filterContacts($contacts, $query) {
         return stripos($contact["name"], $query) !== false;
     }));
 }
+
+function applyAjaxDelay() {
+    sleep(1);
+}

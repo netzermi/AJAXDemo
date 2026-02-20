@@ -6,7 +6,7 @@ $query = isset($_GET["q"]) ? trim($_GET["q"]) : "";
 $filtered = filterContacts($contacts, $query);
 
 if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
-    sleep(1);
+    applyAjaxDelay();
     header("Content-Type: text/html; charset=UTF-8");
     if (count($filtered) === 0) {
         echo '<p class="empty">No contacts found. Try a different name.</p>';
@@ -32,7 +32,7 @@ if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacts (Fetch)</title>
+    <title>Contacts (Fetch with Async/Await)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -76,21 +76,18 @@ if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
             var results = document.getElementById("results");
             var timer = null;
 
-            function fetchResults() {
+            async function fetchResults() {
                 var query = encodeURIComponent(input.value.trim());
-                fetch("index-fetch.php?ajax=1&q=" + query, { method: "GET" })
-                    .then(function (response) {
-                        if (!response.ok) {
-                            throw new Error("Request failed");
-                        }
-                        return response.text();
-                    })
-                    .then(function (html) {
-                        results.innerHTML = html;
-                    })
-                    .catch(function () {
-                        results.innerHTML = '<p class="empty">Unable to load contacts.</p>';
-                    });
+                try {
+                    var response = await fetch("index-fetch-async-await.php?ajax=1&q=" + query, { method: "GET" });
+                    if (!response.ok) {
+                        throw new Error("Request failed");
+                    }
+                    var html = await response.text();
+                    results.innerHTML = html;
+                } catch (error) {
+                    results.innerHTML = '<p class="empty">Unable to load contacts.</p>';
+                }
             }
 
             form.addEventListener("submit", function (event) {

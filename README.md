@@ -1,14 +1,24 @@
 # PHP Contacts Filter Demo
 
-This project is a small PHP demo that shows three ways to filter a list of contacts stored in a JSON file:
+This project is a small PHP demo that shows multiple ways to filter a list of contacts stored in a JSON file:
 
 - index-no-ajax.php: Classic server-rendered filtering with full page reloads.
 - index-ajax.php: Dynamic filtering using XMLHttpRequest (AJAX).
-- index-fetch.php: Dynamic filtering using the Fetch API.
+- index-fetch-promise.php: Dynamic filtering using the Fetch API with promises (`.then()`).
+- index-fetch-async-await.php: Dynamic filtering using the Fetch API with async/await.
 
 All three pages share the same data source:
 
 - contacts.json: Sample contacts data.
+- functions.php: Helper functions for loading and filtering contacts, plus delay control.
+
+## Helper Functions
+
+**functions.php** provides:
+
+- `getContacts()`: Reads and parses contacts from contacts.json
+- `filterContacts($contacts, $query)`: Filters contacts by name using case-insensitive search
+- `applyAjaxDelay()`: Applies a 1-second delay to simulate network latency in AJAX responses
 
 ## How It Works
 
@@ -34,3 +44,5 @@ Then open one of these URLs in your browser:
 - http://localhost:8000/index-no-ajax.php
 - http://localhost:8000/index-ajax.php
 - http://localhost:8000/index-fetch.php
+- http://localhost:8000/index-fetch-promise.php
+- http://localhost:8000/index-fetch-async-await.php

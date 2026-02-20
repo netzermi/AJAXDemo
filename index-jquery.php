@@ -6,7 +6,7 @@ $query = isset($_GET["q"]) ? trim($_GET["q"]) : "";
 $filtered = filterContacts($contacts, $query);
 
 if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
-    sleep(1);
+    applyAjaxDelay();
     header("Content-Type: text/html; charset=UTF-8");
     if (count($filtered) === 0) {
         echo '<p class="empty">No contacts found. Try a different name.</p>';
