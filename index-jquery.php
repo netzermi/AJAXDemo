@@ -32,8 +32,9 @@ if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacts (Fetch)</title>
+    <title>Contacts (jQuery)</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <main class="page">
@@ -70,41 +71,35 @@ if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
     </main>
 
     <script>
-        (function () {
-            var input = document.getElementById("q");
-            var form = document.getElementById("searchForm");
-            var results = document.getElementById("results");
+        $(function () {
+            var $input = $("#q");
+            var $form = $("#searchForm");
+            var $results = $("#results");
             var timer = null;
 
             function fetchResults() {
-                var query = encodeURIComponent(input.value.trim());
-                fetch("index-fetch.php?ajax=1&q=" + query, { method: "GET" })
-                    .then(function (response) {
-                        if (!response.ok) {
-                            throw new Error("Request failed");
-                        }
-                        return response.text();
+                var query = $.trim($input.val());
+                $.get("index-jquery.php?ajax=1&q=" + encodeURIComponent(query))
+                    .done(function (html) {
+                        $results.html(html);
                     })
-                    .then(function (html) {
-                        results.innerHTML = html;
-                    })
-                    .catch(function () {
-                        results.innerHTML = '<p class="empty">Unable to load contacts.</p>';
+                    .fail(function () {
+                        $results.html('<p class="empty">Unable to load contacts.</p>');
                     });
             }
 
-            form.addEventListener("submit", function (event) {
+            $form.on("submit", function (event) {
                 event.preventDefault();
                 fetchResults();
             });
 
-            input.addEventListener("input", function () {
+            $input.on("input", function () {
                 if (timer) {
                     clearTimeout(timer);
                 }
                 timer = setTimeout(fetchResults, 200);
             });
-        })();
+        });
     </script>
 </body>
 </html>

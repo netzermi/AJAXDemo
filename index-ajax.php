@@ -1,18 +1,12 @@
 <?php
-$contactsFile = __DIR__ . "/contacts.json";
-$contactsJson = file_get_contents($contactsFile);
-$contacts = $contactsJson ? json_decode($contactsJson, true) : [];
+require __DIR__ . "/functions.php";
 
+$contacts = getContacts();
 $query = isset($_GET["q"]) ? trim($_GET["q"]) : "";
-$filtered = $contacts;
-
-if ($query !== "") {
-    $filtered = array_values(array_filter($contacts, function ($contact) use ($query) {
-        return stripos($contact["name"], $query) !== false;
-    }));
-}
+$filtered = filterContacts($contacts, $query);
 
 if (isset($_GET["ajax"]) && $_GET["ajax"] === "1") {
+    sleep(1);
     header("Content-Type: text/html; charset=UTF-8");
     if (count($filtered) === 0) {
         echo '<p class="empty">No contacts found. Try a different name.</p>';

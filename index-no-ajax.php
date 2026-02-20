@@ -1,16 +1,11 @@
 <?php
-$contactsFile = __DIR__ . "/contacts.json";
-$contactsJson = file_get_contents($contactsFile);
-$contacts = $contactsJson ? json_decode($contactsJson, true) : [];
+require __DIR__ . "/functions.php";
 
+sleep(1);
+
+$contacts = getContacts();
 $query = isset($_GET["q"]) ? trim($_GET["q"]) : "";
-$filtered = $contacts;
-
-if ($query !== "") {
-    $filtered = array_values(array_filter($contacts, function ($contact) use ($query) {
-        return stripos($contact["name"], $query) !== false;
-    }));
-}
+$filtered = filterContacts($contacts, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
